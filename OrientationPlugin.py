@@ -99,7 +99,7 @@ class OrientationPlugin(Extension):
             auto_orient_message = Message(i18n_catalog.i18nc("@info:status", "Auto-Calculating the optimal orientation because auto orientation is enabled"), 0,
                                     False, -1, title=i18n_catalog.i18nc("@title", "Auto-Orientation"))
             auto_orient_message.show()
-            job = CalculateOrientationJob([node], extended_mode=True, message=auto_orient_message)
+            job = CalculateOrientationJob([node], extended_mode=True, message=auto_orient_message, on_start=True)
             job.finished.connect(self._onFinished)
             job.start()
 

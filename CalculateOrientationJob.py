@@ -15,11 +15,12 @@ if TYPE_CHECKING:
 
 
 class CalculateOrientationJob(Job):
-    def __init__(self, nodes: List[SceneNode], extended_mode: bool = False, message: Optional["Message"] = None) -> None:
+    def __init__(self, nodes: List[SceneNode], extended_mode: bool = False, message: Optional["Message"] = None, on_start: bool = False) -> None:
         super().__init__()
         self._message = message
         self._nodes = nodes
         self._extended_mode = extended_mode
+        self._on_start = on_start
 
     def run(self) -> None:
         op = GroupedOperation()
@@ -33,6 +34,14 @@ class CalculateOrientationJob(Job):
 
             # Convert the new orientation into quaternion
             new_orientation = Quaternion.fromAngleAxis(phi, Vector(-v[0], -v[1], -v[2]))
+
+            if self._on_start:
+                # Add a 45 degree offset around the Z-axis
+                # Rotate around Z-axis
+                z_rotation = Quaternion.fromAngleAxis(math.radians(-45), Vector(0, 0, 1))
+                # Apply the Z-axis rotation
+                new_orientation = z_rotation * new_orientation
+
             # Rotate the axis frame.
             rotation = Quaternion.fromAngleAxis(-0.5 * math.pi, Vector(1, 0, 0))
             new_orientation = rotation * new_orientation
