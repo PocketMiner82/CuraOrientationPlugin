@@ -38,7 +38,7 @@ class CalculateOrientationJob(Job):
             if self._on_start:
                 # Add a 45 degree offset around the Z-axis
                 # Rotate around Z-axis
-                z_rotation = Quaternion.fromAngleAxis(math.radians(-45), Vector(0, 0, 1))
+                z_rotation = Quaternion.fromAngleAxis(math.radians(45), Vector(0, 0, 1))
                 # Apply the Z-axis rotation
                 new_orientation = z_rotation * new_orientation
 
